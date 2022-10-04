@@ -17,13 +17,13 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-{
-    $tasks = Task::orderBy('is_completed')
-        ->orderBy('id')
-        ->get();
+    {
+        $tasks = Task::orderBy('is_completed')
+            ->orderBy('id')
+            ->get();
 
-    return view('task.index')->with(compact('tasks'));
-}
+        return view('task.index')->with(compact('tasks'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -42,11 +42,11 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRequest $request)
-{
-    $task = DB::transaction(fn() => Task::create($request->validated()));
+    {
+        $task = DB::transaction(fn() => Task::create($request->validated()));
 
-    return to_route('tasks.index');
-}
+        return to_route('tasks.index');
+    }
 
     /**
      * Display the specified resource.
@@ -55,9 +55,9 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Task $task)
-{
-    return view('task.show')->with(compact('task'));
-}
+    {
+        return view('task.show')->with(compact('task'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -78,11 +78,11 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRequest $request, Task $task)
-{
-    DB::transaction(fn() => $task->update($request->validated()));
+    {
+        DB::transaction(fn() => $task->update($request->validated()));
 
-    return to_route('tasks.index');
-}
+        return to_route('tasks.index');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -98,17 +98,17 @@ class TaskController extends Controller
     }
 
     public function complete(Task $task): RedirectResponse
-{
-    DB::transaction(fn() => $task->update(['is_completed' => true]));
-    // dd($task);
+    {
+        DB::transaction(fn() => $task->update(['is_completed' => true]));
+        // dd($task);
 
-    return to_route('tasks.index');
-}
+        return to_route('tasks.index');
+    }
 
-public function yetComplete(Task $task): RedirectResponse
-{
-    DB::transaction(fn() => $task->update(['is_completed' => false]));
+    public function yetComplete(Task $task): RedirectResponse
+    {
+        DB::transaction(fn() => $task->update(['is_completed' => false]));
 
-    return to_route('tasks.index');
-}
+        return to_route('tasks.index');
+    }
 }
